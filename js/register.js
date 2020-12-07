@@ -45,6 +45,6 @@ function registerInput(brukerObj, brukernavn) {
 }
 
 function reg() {
-    location.href = '/index.html';
+    location.href = '/forFun/index.html';
 
 }
