@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>De tusen sirkler</title>
+    <style>
+      body {
+        background-color: rgb(30, 30, 30);
+        overflow: hidden;
+      }
+
+      label {
+        color: white;
+      }
+
+      #outputdiv,
+      div {
+        width: 88px;
+        height: 88px;
+        border: 1px solid rgb(180, 111, 111);
+        border-radius: 50%;
+        position: absolute;
+        
+        z-index: -1;
+
+
+
+      }
+      img {
+        width: 85px;
+        height: 85px;
+        border: 1px solid rgb(180, 111, 111);
+        border-radius: 50%;
+        position: absolute;
+        opacity: 0.5;
+      }
+       p{
+        position: relative;
+        left: 28%;
+        top: 15%;
+      }
+    </style>
+    <!--
+		Skriver ut x antall sirkler til nettsiden.
+		Funksjoner:
+		- funksjon som legger til sirkler.		
+		- funksjon som plasserer sirklene på tilfeldige plasser.		
+		- funksjon som endrer farge på alle sirklene. 
+
+		Splitte opp i flere funksjoner?
+	-->
+  </head>
+
+  <body>
+    <label>Antall sirkler</label>
+    <select id="quantity-select" value="">
+      <option>-Velg antall-</option>
+      <option>50</option>
+      <option>200</option>
+      <option>500</option>
+      <option>1000</option>
+    </select>
+
+    <input id="generate-circles-btn" type="button" value="Legg til sirkler">
+    <input id="change-position-btn" type="button" value="Endre posisjon">
+    <input id="change-color-btn" type="button" value="Endre farge">
+
+
+    <div id="outputdiv">
+          <img src="pb.jpg" alt="Avatar">
+          <p id="avatar"></p>
+
+    </div>
+
+    <script>
+      var generateBtn = document.getElementById("generate-circles-btn");
+      var quantityBtn = document.getElementById("quantity-select");
+      var positionBtn = document.getElementById("change-position-btn");
+      var colorBtn = document.getElementById("change-color-btn");
+      var queryString = location.search.substring(1);
+      var avatar = document.getElementById("avatar");
+
+      avatar.innerHTML += `${queryString}`;
+
+
+
+      document.getElementById("generate-circles-btn").onclick = function quantityAdd() {
+
+        for (let i = 0; i <= quantityBtn.value; i++) {
+          createBubbles();
+
+          // Get a reference to the snow flake container
+
+          function createBubbles() {
+            var div = document.getElementById('outputdiv'),
+              clone = div.cloneNode(true); // true means clone all childNodes and all event handlers
+            clone.id = "div";
+            document.body.appendChild(clone);
+            console.log(i);
+
+
+
+          }
+        }
+
+
+      }
+
+
+
+
+      positionBtn.onclick = function moveMe() {
+
+
+        var allElements = document.getElementsByTagName('div');
+        for (var i = 0; i < allElements.length; i++) {
+          var randomPos = Math.floor(Math.random() * 1500);
+          var randomPosY = Math.floor(Math.random() * 1500);
+
+          var num = Math.round(0xffffff * Math.random());
+          var r = num >> 16;
+          var g = num >> 8 & 255;
+          var b = num & 255;
+          var randomColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+          allElements[i].style.cssText = `background-color:${randomColor}; left:${randomPos}px; top:${randomPosY}px;`;
+
+          colorBtn.onclick = function getRandomRgb() {
+            var allElements = document.getElementsByTagName('div');
+            for (var i = 0; i < allElements.length; i++) {
+
+              console.log(randomColor);
+
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+
+</html>
