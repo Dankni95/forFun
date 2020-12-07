@@ -1,5 +1,5 @@
 function reg() {
-    location.href = '/register.html';
+    location.href = '/forFun/register.html';
 
 }
 
@@ -56,7 +56,7 @@ function login() {
 
     function loggedInn() {
         console.log(brukerObj.brukernavn);
-        location.href = `/user.html?${brukerObj.brukernavn}`;
+        location.href = `forFun/user.html?${brukerObj.brukernavn}`;
     
     }
 
