@@ -3,138 +3,218 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>De tusen sirkler</title>
+    <title>Making toDo list</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <style>
-      body {
-        background-color: rgb(30, 30, 30);
-        overflow: hidden;
-      }
-
-      label {
-        color: white;
-      }
-
-      #outputdiv,
       div {
-        width: 88px;
-        height: 88px;
-        border: 1px solid rgb(180, 111, 111);
-        border-radius: 50%;
-        position: absolute;
-        
-        z-index: -1;
 
-
-
-      }
-      img {
-        width: 85px;
-        height: 85px;
-        border: 1px solid rgb(180, 111, 111);
-        border-radius: 50%;
-        position: absolute;
-        opacity: 0.5;
-      }
-       p{
         position: relative;
-        left: 28%;
-        top: 15%;
+        top: 100px;
+        height: 40px;
+        width: 50%;
+        margin: auto;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 1em;
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 217, 0);
+      }
+
+      h4 {
+        margin: 7px;
+        padding: 8px;
+      }
+
+      button {
+        position: absolute;
+        top: 5px;
+        width: 50px;
+        height: 30px;
+        background-color: transparent;
+        border-radius: 20%;
+        border-color: greenyellow;
+        left: 500px;
+
+
+      }
+
+      #headerDiv {
+        top: -10px;
+        z-index: 2;
+        color: rgb(132, 0, 255);
+        background-color: azure;
+        font-size: larger;
+      }
+
+      #toDo,
+      #submitBtn {
+        position: absolute;
+        top: 120px;
+        right: 47%;
+        width: 20%;
+
+
+
+        z-index: 20;
+
+      }
+
+      #submitBtn {
+        position: absolute;
+        top: 120px;
+        right: 32%;
+        width: 15%;
+        z-index: 20;
+
       }
     </style>
-    <!--
-		Skriver ut x antall sirkler til nettsiden.
-		Funksjoner:
-		- funksjon som legger til sirkler.		
-		- funksjon som plasserer sirklene på tilfeldige plasser.		
-		- funksjon som endrer farge på alle sirklene. 
 
-		Splitte opp i flere funksjoner?
-	-->
   </head>
 
   <body>
-    <label>Antall sirkler</label>
-    <select id="quantity-select" value="">
-      <option>-Velg antall-</option>
-      <option>50</option>
-      <option>200</option>
-      <option>500</option>
-      <option>1000</option>
-    </select>
 
-    <input id="generate-circles-btn" type="button" value="Legg til sirkler deretter klikk `endre pos`">
-    <input id="change-position-btn" type="button" value="Endre posisjon">
-    <input id="change-color-btn" type="button" value="">
+    <div id="headerDiv"></div>
 
+    <input type="text" id="toDo" placeholder="What to do?">
+    <input type="submit" value="Submit" id="submitBtn">
 
-    <div id="outputdiv">
-          <img src="pb.jpg" alt="Avatar">
-          <p id="avatar"></p>
-
-    </div>
 
     <script>
-      var generateBtn = document.getElementById("generate-circles-btn");
-      var quantityBtn = document.getElementById("quantity-select");
-      var positionBtn = document.getElementById("change-position-btn");
-      var colorBtn = document.getElementById("change-color-btn");
+      /* localStorage.clear() */
+      var userName = document.getElementById("h1userName");
       var queryString = location.search.substring(1);
-      var avatar = document.getElementById("avatar");
-
-      avatar.innerHTML += `${queryString}`;
-
-
-
-      document.getElementById("generate-circles-btn").onclick = function quantityAdd() {
-
-        for (let i = 0; i <= quantityBtn.value; i++) {
-          createBubbles();
-
-          // Get a reference to the snow flake container
-
-          function createBubbles() {
-            var div = document.getElementById('outputdiv'),
-              clone = div.cloneNode(true); // true means clone all childNodes and all event handlers
-            clone.id = "div";
-            document.body.appendChild(clone);
-            console.log(i);
-
-
-
-          }
-        }
-
-
-      }
+      var addToDoBtn = document.getElementById("submitBtn");
 
 
 
 
-      positionBtn.onclick = function moveMe() {
+      if (queryString) {
+
+        load();
+
+        function load() {
+          var storedValue = JSON.parse(localStorage.getItem(queryString));
+          if (storedValue) {
+
+            document.getElementById("headerDiv").innerHTML = `<h1>Hello ${queryString}, what would you like to do?</h1>`
+
+            var array = [];
+            array.push(storedValue.items);
+            array = JSON.stringify(array);
+
+            var filter = array.replace(/"/g, "").replace(/]/g, "").replace(/\[/g, "").replace(/null/g, "").replace(",",
+              "");
+            var filteredArray = filter.split(',').filter(Boolean);
 
 
-        var allElements = document.getElementsByTagName('div');
-        for (var i = 0; i < allElements.length; i++) {
-          var randomPos = Math.floor(Math.random() * 1500);
-          var randomPosY = Math.floor(Math.random() * 1500);
 
-          var num = Math.round(0xffffff * Math.random());
-          var r = num >> 16;
-          var g = num >> 8 & 255;
-          var b = num & 255;
-          var randomColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-          allElements[i].style.cssText = `background-color:${randomColor}; left:${randomPos}px; top:${randomPosY}px;`;
 
-          colorBtn.onclick = function getRandomRgb() {
-            var allElements = document.getElementsByTagName('div');
-            for (var i = 0; i < allElements.length; i++) {
 
-              console.log(randomColor);
+            console.log(filteredArray);
+            filteredArray.forEach(myFunction);
+
+
+            function myFunction(item) {
+
+              var div = document.createElement('div');
+              var btn = document.createElement("BUTTON");
+              document.body.appendChild(div);
+
+              div.innerHTML = `<h4>${item}</h4>`;
+              div.appendChild(btn);
+
+              var divs = document.querySelectorAll("div");
+              for (let i = 0; i < divs.length; i++) {
+                div.id = i;
+                btn.id = `check${i}`;
+                btn.className = "fas fa-trash-alt icon trash-icon"
+
+              }
 
             }
+          } else {
+
           }
+
         }
+
+      } else {
+        alert("Not logged inn BREAK BREAK END");
       }
+
+      addToDoBtn.addEventListener("click", function () {
+        var toDoValue = document.getElementById("toDo").value;
+
+        if (toDoValue) {
+
+
+          // retrieve
+
+          var user = JSON.parse(localStorage.getItem(queryString));
+
+          // set
+          toDoList = {
+            [queryString]: {
+              brukernavn: user[queryString].brukernavn,
+              passord: user[queryString].passord
+            },
+            items: []
+          };
+
+          // alt fungerer nå, men item blir overwrita når legges inn second value
+
+          var item = item ? item.split(',') : [];
+          item.push(user.items);
+
+          item.push(toDoValue);
+
+          console.log(item);
+
+
+          toDoList.items.push(item);
+
+          console.log(toDoList.items);
+          localStorage.setItem(queryString, JSON.stringify(toDoList));
+
+          // loop
+          for (item of toDoList.items) {
+
+
+            var div = document.createElement('div');
+            var btn = document.createElement("INPUT");
+
+            document.body.appendChild(div);
+            div.innerHTML = `<h4>${toDoValue}</h4>`;
+            btn.setAttribute("type", "checkbox");
+            div.appendChild(btn);
+
+
+          }
+
+
+
+
+
+        } else {
+          alert("please add toDo");
+        }
+
+
+      });
+
+      var divv = document.getElementsByTagName("div");
+      for (var i = 0; i < divv.length; i++) {
+        divv[i].addEventListener("click", function () {
+          console.log(this.innerText);
+          divv.forEach(func, this.style.display = "none")
+        });
+      }
+
+      function func(item){
+        console.log(this.item);
+        Array.prototype.includes() // Får se om jeg orker mer idag, men det er neste steg, slett value fra localstorage :)
+            }
     </script>
   </body>
 
