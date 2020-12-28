@@ -119,46 +119,43 @@ function login() {
         brukernavn: brukernavn,
         passord: passord
     };
-    var found = false;
     var passordFound = false;
 
-    for (let i = 0; i < localStorage.length; i++) {
-       var localAcc = JSON.parse(localStorage.getItem(localStorage.key(i)));
-       // scrap this lol
-
-         
-         //throwing error, no idea why
-         var localBruker = localAcc[brukernavn].brukernavn;
-         var localPw = localAcc[brukernavn].passord;
-
     
-    
+        var localAcc = JSON.parse(localStorage.getItem(brukernavn));
+        // scrap this lol
+
+       
+            var localBruker = localAcc[brukernavn].brukernavn;
+            var localPw = localAcc[brukernavn].passord;
+
+
+            if (localPw == brukerObj.passord && localBruker == brukerObj.brukernavn) {
+
+                passordFound = true;
+                console.log("localStorage-passord: ", localPw, "brukerObj-passord: ", brukerObj.passord,
+                    "localStorage-brukernavn: ", localBruker, "brukerObj-brukernavn: ", brukerObj.brukernavn);
+                alert("Logger deg inn...");
+                loggedInn();
+            }
+
+            if (!passordFound) {
+                console.log(passordFound);
+                alert("feil brukernavn eller passord!");
         
-        if (localPw == brukerObj.passord && localBruker == brukerObj.brukernavn) {
-
-            passordFound = true;
-            console.log("localStorage-passord: ", localPw, "brukerObj-passord: ", brukerObj.passord,
-                "localStorage-brukernavn: ", localBruker, "brukerObj-brukernavn: ", brukerObj.brukernavn);
-            alert("Logger deg inn...");
-            loggedInn();
-            break;
-
+            }
+            function loggedInn() {
+                console.log(brukerObj.brukernavn);
+                location.href = `user.html?${brukerObj.brukernavn}`;
+        
+            }
+            
         }
-    }
+    
 
 
+    
 
-    if (!found || !passordFound) {
-        console.log(passordFound);
-        alert("feil brukernavn eller passord!");
-
-    }
-
-    function loggedInn() {
-        console.log(brukerObj.brukernavn);
-        location.href = `user.html?${brukerObj.brukernavn}`;
-
-    }
+  
 
 
-}

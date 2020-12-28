@@ -64,11 +64,12 @@
         border-radius: 20%;
         left: 500px;
         cursor: pointer;
-        
+
 
 
       }
-      button:hover{
+
+      button:hover {
         background-color: red;
       }
 
@@ -102,7 +103,7 @@
         cursor: pointer;
         background-color: #000000bd;
         text-transform: uppercase;
-        color:aqua;
+        color: aqua;
 
 
       }
@@ -159,6 +160,7 @@
               var btn = document.createElement("BUTTON");
               document.body.appendChild(div);
 
+
               div.innerHTML = `<h4>${item}</h4>`;
               div.appendChild(btn);
 
@@ -167,6 +169,7 @@
                 div.id = i;
                 btn.id = `check${i}`;
                 btn.className = "fas fa-trash-alt icon trash-icon"
+
 
               }
 
@@ -182,64 +185,73 @@
       }
 
       addToDoBtn.addEventListener("click", function () {
-        var toDoValue = document.getElementById("toDo").value;
-        document.getElementById('toDo').value = null;
-        var focusME = document.getElementById('toDo');
-        focusME.focus();
-
-        if (toDoValue) {
-
-
-          // retrieve
-
-          var user = JSON.parse(localStorage.getItem(queryString));
-
-          // set
-          toDoList = {
-            [queryString]: {
-              brukernavn: user[queryString].brukernavn,
-              passord: user[queryString].passord
-            },
-            items: []
-          };
-
-          // alt fungerer nå, men item blir overwrita når legges inn second value
-
-          var item = item ? item.split(',') : [];
-          item.push(user.items);
-
-          item.push(toDoValue);
-
-          console.log(item);
-
-
-          toDoList.items.push(item);
-
-          console.log(toDoList.items);
-          localStorage.setItem(queryString, JSON.stringify(toDoList));
-
-          // loop
-          for (item of toDoList.items) {
-
-
-            let div = document.createElement('div');
-            let btn = document.createElement("BUTTON");
-            document.body.appendChild(div);
-            div.innerHTML = `<h4>${toDoValue}</h4>`;
-            div.appendChild(btn);
-            btn.className = "fas fa-trash-alt icon trash-icon";
-
-
-
+          var toDoValue = document.getElementById("toDo").value;
+          document.getElementById('toDo').value = null;
+          var focusME = document.getElementById('toDo');
+          focusME.focus();
+          if(toDoValue.includes(",")){
+            alert("Sorry, komma er ikke lov hehe. Jeg bruker komma for å dele opp items med .split()");
+            toDoValue = null;
           }
 
+          if (toDoValue) {
 
 
+            // retrieve
+
+            var user = JSON.parse(localStorage.getItem(queryString));
+
+            // set
+            toDoList = {
+              [queryString]: {
+                brukernavn: user[queryString].brukernavn,
+                passord: user[queryString].passord
+              },
+              items: []
+            };
 
 
-        } else {
-          alert("please add toDo");
+            var item = item ? item.split(',') : [];
+            item.push(user.items);
+
+            item.push(toDoValue);
+
+            console.log(item);
+
+
+            toDoList.items.push(item);
+
+            console.log(toDoList.items);
+            localStorage.setItem(queryString, JSON.stringify(toDoList));
+
+            // loop
+            for (item of toDoList.items) {
+
+
+              let div = document.createElement('div');
+              let btn = document.createElement("BUTTON");
+              document.body.appendChild(div);
+              div.innerHTML = `<h4>${toDoValue}</h4>`;
+              div.appendChild(btn);
+              btn.className = "fas fa-trash-alt icon trash-icon";
+
+              //event deligation for dynamicly made elements
+              btn.addEventListener('click', event => {
+
+                func(div)
+            });;
+
+
         }
+
+
+
+
+
+      }
+      else {
+        alert("please add toDo");
+      }
 
 
       });
