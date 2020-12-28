@@ -7,6 +7,35 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <style>
+      body {
+        background: #ee0979;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ee0979, #ff6a00);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ee0979, #ff6a00);
+      }
+
+
+      :root {
+        --input-border: #6e3d6e;
+        --input-focus-h: 245;
+        --input-focus-s: 100%;
+        --input-focus-l: 42%;
+      }
+
+      input {
+        font-size: 16px;
+        font-size: max(16px, 1em);
+        font-family: inherit;
+        padding: 0.25em 0.5em;
+        background-color: #fff;
+        border: 2px solid var(--input-border);
+        border-radius: 4px;
+      }
+
+
+
+
       div {
 
         position: relative;
@@ -29,14 +58,18 @@
       button {
         position: absolute;
         top: 5px;
-        width: 50px;
+        width: 55px;
         height: 30px;
-        background-color: transparent;
+        background-color: wheat;
         border-radius: 20%;
-        border-color: greenyellow;
         left: 500px;
+        cursor: pointer;
+        
 
 
+      }
+      button:hover{
+        background-color: red;
       }
 
       #headerDiv {
@@ -52,7 +85,7 @@
         position: absolute;
         top: 120px;
         right: 47%;
-        width: 20%;
+        width: 22%;
 
 
 
@@ -63,9 +96,14 @@
       #submitBtn {
         position: absolute;
         top: 120px;
-        right: 32%;
-        width: 15%;
+        right: 35%;
+        width: 10%;
         z-index: 20;
+        cursor: pointer;
+        background-color: #000000bd;
+        text-transform: uppercase;
+        color:aqua;
+
 
       }
     </style>
@@ -96,15 +134,15 @@
         function load() {
           var storedValue = JSON.parse(localStorage.getItem(queryString));
           if (storedValue) {
-
+            console.log(storedValue);
             document.getElementById("headerDiv").innerHTML = `<h1>Hello ${queryString}, what would you like to do?</h1>`
 
             var array = [];
             array.push(storedValue.items);
             array = JSON.stringify(array);
 
-            var filter = array.replace(/"/g, "").replace(/]/g, "").replace(/\[/g, "").replace(/null/g, "").replace(",",
-              "");
+            var filter = array.replace(/"/g, "").replace(/]/g, "").replace(/\[/g, "").replace(/null/g, "");
+            console.log(filter);
             var filteredArray = filter.split(',').filter(Boolean);
 
 
@@ -145,6 +183,9 @@
 
       addToDoBtn.addEventListener("click", function () {
         var toDoValue = document.getElementById("toDo").value;
+        document.getElementById('toDo').value = null;
+        var focusME = document.getElementById('toDo');
+        focusME.focus();
 
         if (toDoValue) {
 
@@ -181,13 +222,13 @@
           for (item of toDoList.items) {
 
 
-            var div = document.createElement('div');
-            var btn = document.createElement("INPUT");
-
+            let div = document.createElement('div');
+            let btn = document.createElement("BUTTON");
             document.body.appendChild(div);
             div.innerHTML = `<h4>${toDoValue}</h4>`;
-            btn.setAttribute("type", "checkbox");
             div.appendChild(btn);
+            btn.className = "fas fa-trash-alt icon trash-icon";
+
 
 
           }
@@ -203,18 +244,56 @@
 
       });
 
-      var divv = document.getElementsByTagName("div");
-      for (var i = 0; i < divv.length; i++) {
-        divv[i].addEventListener("click", function () {
-          console.log(this.innerText);
-          divv.forEach(func, this.style.display = "none")
-        });
-      }
+      const divs = document.querySelectorAll("div");
+      divs.forEach(div => {
+        div.addEventListener("click", event => {
 
-      function func(item){
-        console.log(this.item);
-        Array.prototype.includes() // Får se om jeg orker mer idag, men det er neste steg, slett value fra localstorage :)
-            }
+          div.removeEventListener("click", func(div));
+        });
+      });
+
+      function func(item) {
+
+        item.style.backgroundColor = "red";
+
+        var ArrayItem = JSON.parse(localStorage.getItem(queryString));
+
+
+        var accInfo = ArrayItem;
+
+
+        var rebuildList = {
+          [queryString]: {
+            brukernavn: accInfo[queryString].brukernavn,
+            passord: accInfo[queryString].passord
+          },
+          items: []
+        };
+        /* rebuildList.push(accInfo);
+        rebuildList.unshift(accInfo); */
+
+        var flatArray = ArrayItem.items.flat(Infinity).filter(Boolean);
+
+        console.log(flatArray);
+        var index = item.innerText;
+        console.log(index);
+
+        /* var items = flatArray.slice(0,index).concat(flatArray.slice(index + 1, flatArray.length)); */
+        var items = flatArray.filter(e => e !== index);
+        console.log(items);
+        for (let i = 0; i < items.length; i++) {
+          var item = item ? items[i].split(',') : [];
+          rebuildList.items.push(item);
+
+        }
+
+        console.log(JSON.stringify(ArrayItem));
+        console.log(JSON.stringify(rebuildList));
+        localStorage.setItem(queryString, JSON.stringify(rebuildList))
+
+        location.reload();
+
+      }
     </script>
   </body>
 

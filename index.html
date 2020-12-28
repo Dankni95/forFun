@@ -10,26 +10,37 @@
 
     <body>
         <center>
-        <div class="toptxt">
-            <h3>Logg inn eller registrer deg! AYY </h3>
-        </div>
-        <div class="secondTxt">
-            <h3>Ikke bruk ekte brukernavn eller passord</h3>
-
-        </div>
-
-        <form> <!-- delete -->
-            <div class="container">
-                <label>Brukernavn : </label>
-                <input type="text" name="username" id="brukernavn" required>
-                <label>Passord : </label>
-                <input type="password" name="password" id="passord" required>
-                <button type="button" onclick="login()">Login</button>
-                <button type="button" id="register" onclick="reg()"> Registrer deg </button>
-                <a href="#"> Glemt brukernavn eller passord? </a>
+            <div class="toptxt">
+                <h3>Logg inn eller registrer deg! AYY </h3>
             </div>
-        </form>
-    </center>  <!-- delete -->
+            <div class="secondTxt">
+                <h3>Ikke bruk ekte brukernavn eller passord</h3>
+
+            </div>
+            <div id="pop-up">
+                <div id="pop-box">
+                  <h1 id="pop-title"></h1>
+                  <p id="pop-text">
+                      
+                  </p>
+                  
+                  <div id="pop-close">&#9746;</div>
+                </div>
+              </div>
+
+            <form>
+                <!-- delete -->
+                <div class="container">
+                    <label>Brukernavn : </label>
+                    <input type="text" name="username" id="brukernavn" required>
+                    <label>Passord : </label>
+                    <input type="password" name="password" id="passord"  required>
+                    <button type="button" onclick="login()">Login</button>
+                    <button type="button"  id="register" onclick="pop.open('Ikke bruk ekte brukernavn eller passord')"> Registrer deg </button>
+                   
+                </div>
+            </form>
+        </center> <!-- delete -->
         <script src="js/app.js"></script>
     </body>
 
